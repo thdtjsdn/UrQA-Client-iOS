@@ -12,6 +12,8 @@
 #define URLog(format, args...)
 #endif
 
+#define URQA_TERMINATE_MSGH_ID          0xDEADBEEF
+
 typedef NS_ENUM(NSInteger, URErrorRank)
 {
     URErrorRankNothing      = -1,
@@ -21,3 +23,5 @@ typedef NS_ENUM(NSInteger, URErrorRank)
     URErrorRankMajor        = 3,
     URErrorRankMinor        = 4
 };
+
+typedef void (*URQACrashCallback)(void *context, int tag);

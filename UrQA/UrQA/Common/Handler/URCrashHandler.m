@@ -10,4 +10,16 @@
 
 @implementation URCrashHandler
 
+- (id)initWithCallback:(URQACrashCallback)callback andTag:(int)tag
+{
+    self = [super init];
+    if(self)
+    {
+        _callback = callback;
+        _tag = tag;
+    }
+    
+    return self;
+}
+
 @end
