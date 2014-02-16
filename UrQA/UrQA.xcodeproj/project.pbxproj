@@ -14,8 +14,6 @@
 		9DC90A0818B0D0800012C645 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DC909F818B0D0800012C645 /* Foundation.framework */; };
 		9DC90A0A18B0D0800012C645 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DC90A0918B0D0800012C645 /* UIKit.framework */; };
 		9DC90A0D18B0D0800012C645 /* libUrQA.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DC909F518B0D0800012C645 /* libUrQA.a */; };
-		9DC90A1318B0D0800012C645 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9DC90A1118B0D0800012C645 /* InfoPlist.strings */; };
-		9DC90A1518B0D0800012C645 /* UrQATests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DC90A1418B0D0800012C645 /* UrQATests.m */; };
 		9DC90A2918B0D2340012C645 /* URCrashHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DC90A2818B0D2340012C645 /* URCrashHandler.m */; };
 		9DC90A2C18B0D24E0012C645 /* URSignalHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DC90A2B18B0D24E0012C645 /* URSignalHandler.m */; };
 		9DC90A2F18B0D26B0012C645 /* URUncaughtHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DC90A2E18B0D26B0012C645 /* URUncaughtHandler.m */; };
@@ -27,6 +25,7 @@
 		9DC90A4118B0D30C0012C645 /* URCrashWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DC90A4018B0D30C0012C645 /* URCrashWriter.m */; };
 		9DC90A4418B0D3220012C645 /* URFileWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DC90A4318B0D3220012C645 /* URFileWriter.m */; };
 		9DC90A4718B0D3430012C645 /* URServerWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DC90A4618B0D3430012C645 /* URServerWriter.m */; };
+		9DC90A4B18B0DA770012C645 /* UREventPath.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DC90A4A18B0DA770012C645 /* UREventPath.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,9 +60,6 @@
 		9DC90A0518B0D0800012C645 /* UrQATests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UrQATests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9DC90A0618B0D0800012C645 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		9DC90A0918B0D0800012C645 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
-		9DC90A1018B0D0800012C645 /* UrQATests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "UrQATests-Info.plist"; sourceTree = "<group>"; };
-		9DC90A1218B0D0800012C645 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		9DC90A1418B0D0800012C645 /* UrQATests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UrQATests.m; sourceTree = "<group>"; };
 		9DC90A2518B0D2040012C645 /* URConfigration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = URConfigration.h; path = Common/URConfigration.h; sourceTree = "<group>"; };
 		9DC90A2618B0D2120012C645 /* URDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = URDefines.h; path = Common/URDefines.h; sourceTree = "<group>"; };
 		9DC90A2718B0D2340012C645 /* URCrashHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = URCrashHandler.h; path = Common/Handler/URCrashHandler.h; sourceTree = "<group>"; };
@@ -88,6 +84,8 @@
 		9DC90A4318B0D3220012C645 /* URFileWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = URFileWriter.m; path = Common/Logger/Writer/URFileWriter.m; sourceTree = "<group>"; };
 		9DC90A4518B0D3430012C645 /* URServerWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = URServerWriter.h; path = Common/Logger/Writer/URServerWriter.h; sourceTree = "<group>"; };
 		9DC90A4618B0D3430012C645 /* URServerWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = URServerWriter.m; path = Common/Logger/Writer/URServerWriter.m; sourceTree = "<group>"; };
+		9DC90A4918B0DA770012C645 /* UREventPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UREventPath.h; path = Common/Eventpath/UREventPath.h; sourceTree = "<group>"; };
+		9DC90A4A18B0DA770012C645 /* UREventPath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UREventPath.m; path = Common/Eventpath/UREventPath.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,7 +115,6 @@
 			isa = PBXGroup;
 			children = (
 				9DC909FA18B0D0800012C645 /* UrQA */,
-				9DC90A0E18B0D0800012C645 /* UrQATests */,
 				9DC909F718B0D0800012C645 /* Frameworks */,
 				9DC909F618B0D0800012C645 /* Products */,
 			);
@@ -162,24 +159,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		9DC90A0E18B0D0800012C645 /* UrQATests */ = {
-			isa = PBXGroup;
-			children = (
-				9DC90A1418B0D0800012C645 /* UrQATests.m */,
-				9DC90A0F18B0D0800012C645 /* Supporting Files */,
-			);
-			path = UrQATests;
-			sourceTree = "<group>";
-		};
-		9DC90A0F18B0D0800012C645 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				9DC90A1018B0D0800012C645 /* UrQATests-Info.plist */,
-				9DC90A1118B0D0800012C645 /* InfoPlist.strings */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 		9DC90A1E18B0D1910012C645 /* Common */ = {
 			isa = PBXGroup;
 			children = (
@@ -189,6 +168,7 @@
 				9DC90A3118B0D28B0012C645 /* URCrashReporter.m */,
 				9DC90A2318B0D1D10012C645 /* Crash Handler */,
 				9DC90A2018B0D19F0012C645 /* Crash Logger */,
+				9DC90A4818B0DA430012C645 /* Event Path */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -248,6 +228,15 @@
 				9DC90A2E18B0D26B0012C645 /* URUncaughtHandler.m */,
 			);
 			name = "Crash Handler";
+			sourceTree = "<group>";
+		};
+		9DC90A4818B0DA430012C645 /* Event Path */ = {
+			isa = PBXGroup;
+			children = (
+				9DC90A4918B0DA770012C645 /* UREventPath.h */,
+				9DC90A4A18B0DA770012C645 /* UREventPath.m */,
+			);
+			name = "Event Path";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -320,7 +309,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9DC90A1318B0D0800012C645 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -335,6 +323,7 @@
 				9DC90A4118B0D30C0012C645 /* URCrashWriter.m in Sources */,
 				9DC90A0018B0D0800012C645 /* URQAController.m in Sources */,
 				9DC90A3518B0D2A40012C645 /* URCrashLogger.m in Sources */,
+				9DC90A4B18B0DA770012C645 /* UREventPath.m in Sources */,
 				9DC90A4418B0D3220012C645 /* URFileWriter.m in Sources */,
 				9DC90A3818B0D2BB0012C645 /* URInformation.m in Sources */,
 				9DC90A2F18B0D26B0012C645 /* URUncaughtHandler.m in Sources */,
@@ -350,7 +339,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9DC90A1518B0D0800012C645 /* UrQATests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -363,17 +351,6 @@
 			targetProxy = 9DC90A0B18B0D0800012C645 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		9DC90A1118B0D0800012C645 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				9DC90A1218B0D0800012C645 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		9DC90A1618B0D0800012C645 /* Debug */ = {

@@ -18,11 +18,11 @@
 + (URQAController *)sharedController;
 + (URQAController *)sharedControllerWithAPIKey:(NSString *)APIKey;
 
-+ (BOOL)leaveBreadcrumb;
-+ (BOOL)leaveBreadcrumb:(NSString *)breadcrumb;
++ (void)leaveBreadcrumb;
++ (void)leaveBreadcrumb:(NSString *)tag;
 
-+ (BOOL)logException:(NSException *)exception;
-+ (BOOL)logException:(NSException *)exception withTag:(NSString *)tag;
-+ (BOOL)logException:(NSException *)exception withTag:(NSString *)tag andErrorRank:(URErrorRank *)errorRank;
++ (void)logException:(NSException *)exception;
++ (void)logException:(NSException *)exception withTag:(NSString *)tag;
++ (void)logException:(NSException *)exception withTag:(NSString *)tag andErrorRank:(URErrorRank)errorRank;
 
 @end

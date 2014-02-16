@@ -6,8 +6,10 @@
 //  Copyright (c) 2014년 Kawoou. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
 @interface URCrashReporter : NSObject
+
+- (void)addEventPath:(NSString *)tag;
+
+- (void)sendException:(NSException *)exception andErrorRank:(URErrorRank)errorRank andTag:(NSString *)tag;
 
 @end
