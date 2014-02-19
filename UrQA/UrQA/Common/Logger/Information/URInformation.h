@@ -10,4 +10,6 @@
 
 @interface URInformation : NSObject
 
+- (BOOL)reloadInformation;
+
 @end

@@ -23,6 +23,13 @@ void signalExceptionCallback(siginfo_t *info, ucontext_t *uap);
 void machSignalExceptionCallback(siginfo_t *info, exception_type_t exception_type, mach_exception_data_t codes, mach_msg_type_number_t code_count);
 void uncaughtExceptionCallback(NSException *exception);
 
+@interface URCrashReporter()
+{
+    BOOL            _isStarted;
+}
+
+@end
+
 @implementation URCrashReporter
 
 - (id)init
@@ -47,6 +54,9 @@ void uncaughtExceptionCallback(NSException *exception);
 
 - (BOOL)start
 {
+    if(_isStarted)
+        return YES;
+    
     for(URCrashHandler *handler in _crashHandler)
     {
         if([handler start])
@@ -61,6 +71,9 @@ void uncaughtExceptionCallback(NSException *exception);
 
 - (void)stop
 {
+    if(!_isStarted)
+        return;
+    
     for(URCrashHandler *handler in _crashHandler)
         [handler stop];
 }

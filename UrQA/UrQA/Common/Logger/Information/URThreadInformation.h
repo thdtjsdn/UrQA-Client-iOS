@@ -8,6 +8,14 @@
 
 #import "URInformation.h"
 
+#import "URConfigration.h"
+#import "URDefines.h"
+
 @interface URThreadInformation : URInformation
+
+@property (readonly) NSArray            *threadInfo;
+
+- (BOOL)reloadInformation;
+- (BOOL)reloadInformation:(URThreadInfo *)crashThreadInfo;
 
 @end

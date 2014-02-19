@@ -8,7 +8,20 @@
 
 #import "URCrashHandler.h"
 
+@interface URCrashHandler()
+{
+@protected
+    BOOL            _isStarted;
+}
+
+@end
+
 @implementation URCrashHandler
+
+- (id)init
+{
+    return nil;
+}
 
 - (id)initWithCallback:(URQACrashCallback)callback andTag:(int)tag
 {
@@ -20,6 +33,28 @@
     }
     
     return self;
+}
+
+- (void)dealloc
+{
+    [self stop];
+}
+
+- (BOOL)start
+{
+    if(_isStarted)
+        return NO;
+    
+    return _isStarted = YES;
+}
+
+- (BOOL)stop
+{
+    if(!_isStarted)
+        return NO;
+    
+    _isStarted = NO;
+    return YES;
 }
 
 @end

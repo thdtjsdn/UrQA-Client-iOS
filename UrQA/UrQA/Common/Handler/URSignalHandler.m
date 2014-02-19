@@ -32,10 +32,10 @@ static mach_port_t              _prevPorts[EXC_TYPES_COUNT];
 static exception_behavior_t     _prevBehaviors[EXC_TYPES_COUNT];
 static thread_state_flavor_t    _prevFlavors[EXC_TYPES_COUNT];
 
-void sigabrtCallback(int signo, siginfo_t *info, ucontext_t *ucontext);
-kern_return_t machExceptionCallback(task_t task, thread_t thread, exception_type_t exception_type, mach_exception_data_t code, mach_msg_type_number_t code_count);
-kern_return_t machExceptionForward(task_t task, thread_t thread, exception_type_t exception_type, mach_exception_data_t code, mach_msg_type_number_t code_count);
-bool machExceptionGetSiginfo(exception_type_t exception_type, mach_exception_data_t codes, mach_msg_type_number_t code_count, cpu_type_t cpu_type, siginfo_t *siginfo);
+void sigabrtCallback(int, siginfo_t *, ucontext_t *);
+kern_return_t machExceptionCallback(task_t, thread_t, exception_type_t, mach_exception_data_t, mach_msg_type_number_t);
+kern_return_t machExceptionForward(task_t, thread_t, exception_type_t, mach_exception_data_t, mach_msg_type_number_t);
+bool machExceptionGetSiginfo(exception_type_t, mach_exception_data_t, mach_msg_type_number_t, cpu_type_t, siginfo_t *);
 void *exceptionServerThread(void *arg);
 
 @interface URSignalHandler()
@@ -53,28 +53,33 @@ void *exceptionServerThread(void *arg);
 
 - (id)initWithCallback:(URQACrashCallback)callback andTag:(int)tag
 {
-    self = [super initWithCallback:callback andTag:tag];
-    if(self)
+    static dispatch_once_t onceToken;
+    if(!_signalHandler)
     {
-        _signalStack.ss_size = MAX(MINSIGSTKSZ, 64 * 1024);
-        _signalStack.ss_sp = malloc(_signalStack.ss_size);
-        _signalStack.ss_flags = 0;
-        
-        if(!_signalStack.ss_sp)
-            return nil;
-        
-        _machServerThread = MACH_PORT_NULL;
-        _machServerPort = MACH_PORT_NULL;
-        _machNotifyPort = MACH_PORT_NULL;
-        _machPortSet = MACH_PORT_NULL;
+        if(!_signalHandler)
+        {
+            dispatch_once(&onceToken, ^{
+                _signalHandler = [super initWithCallback:callback andTag:tag];
+            });
+            
+            self = _signalHandler;
+            if(self)
+            {
+                _signalStack.ss_size = MAX(MINSIGSTKSZ, 64 * 1024);
+                _signalStack.ss_sp = malloc(_signalStack.ss_size);
+                _signalStack.ss_flags = 0;
+                
+                if(!_signalStack.ss_sp)
+                    return nil;
+                
+                _machServerThread = MACH_PORT_NULL;
+                _machServerPort = MACH_PORT_NULL;
+                _machNotifyPort = MACH_PORT_NULL;
+                _machPortSet = MACH_PORT_NULL;
+            }
+        }
     }
-    
-    return _signalHandler = self;
-}
-
-- (void)dealloc
-{
-    [self stop];
+    return _signalHandler;
 }
 
 - (BOOL)registerHandlerWithSIGABRT
@@ -237,6 +242,9 @@ void *exceptionServerThread(void *arg);
 
 - (BOOL)start
 {
+    if(![super start])
+        return NO;
+    
     if(![self registerHandlerWithSIGABRT])
         return NO;
     
@@ -248,6 +256,9 @@ void *exceptionServerThread(void *arg);
 
 - (BOOL)stop
 {
+    if(![super stop])
+        return NO;
+    
     mach_msg_return_t mr;
     
     sigaction(SIGABRT, _oldSignalAction, NULL);
@@ -403,7 +414,7 @@ kern_return_t machExceptionForward(task_t task, thread_t thread, exception_type_
     
     exception_data_type_t code32[code_count];
     for(mach_msg_type_number_t i = 0; i < code_count; i++)
-        code32[i] = (uint64_t)code[i];
+        code32[i] = (uint32_t)code[i];
     
     bool mach_exc_codes = false;
     if(behavior & MACH_EXCEPTION_CODES)
@@ -466,22 +477,22 @@ bool machExceptionGetSiginfo(exception_type_t exception_type, mach_exception_dat
                 siginfo->si_signo = SIGSEGV;
             else
                 siginfo->si_signo = SIGBUS;
-            siginfo->si_addr = subcode;
+            siginfo->si_addr = (void*)subcode;
             break;
             
         case EXC_BAD_INSTRUCTION:
             siginfo->si_signo = SIGILL;
-            siginfo->si_addr = subcode;
+            siginfo->si_addr = (void*)subcode;
             break;
             
         case EXC_ARITHMETIC:
             siginfo->si_signo = SIGFPE;
-            siginfo->si_addr = subcode;
+            siginfo->si_addr = (void*)subcode;
             break;
             
         case EXC_EMULATION:
             siginfo->si_signo = SIGEMT;
-            siginfo->si_addr = subcode;
+            siginfo->si_addr = (void*)subcode;
             break;
             
         case EXC_SOFTWARE:
@@ -508,12 +519,12 @@ bool machExceptionGetSiginfo(exception_type_t exception_type, mach_exception_dat
                 siginfo->si_signo = SIGABRT;
                 break;
         }
-            siginfo->si_addr = subcode;
+            siginfo->si_addr = (void*)subcode;
             break;
             
         case EXC_BREAKPOINT:
             siginfo->si_signo = SIGTRAP;
-            siginfo->si_addr = subcode;
+            siginfo->si_addr = (void*)subcode;
             break;
             
         default:
@@ -650,7 +661,7 @@ void *exceptionServerThread(void *arg)
 #if !defined(__LP64__)
             mach_exception_data_type_t code64[request->codeCnt];
             for(mach_msg_type_number_t i = 0; i < request->codeCnt; i++)
-                code64[i] = (uint32_t)request->code[i];
+                code64[i] = (uint64_t)request->code[i];
 #else
             if(request_size - sizeof(*request) < (sizeof(mach_exception_data_type_t) * request->codeCnt))
             {

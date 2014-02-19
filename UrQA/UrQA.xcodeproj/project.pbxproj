@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9D837B8B18B2203F00E3CA52 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D837B8A18B2203F00E3CA52 /* CoreTelephony.framework */; };
+		9D837B8F18B2207600E3CA52 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D837B8E18B2207600E3CA52 /* Reachability.m */; };
 		9DC909F918B0D0800012C645 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DC909F818B0D0800012C645 /* Foundation.framework */; };
 		9DC909FE18B0D0800012C645 /* URQAController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9DC909FD18B0D0800012C645 /* URQAController.h */; };
 		9DC90A0018B0D0800012C645 /* URQAController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DC909FF18B0D0800012C645 /* URQAController.m */; };
@@ -52,6 +54,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9D837B8A18B2203F00E3CA52 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		9D837B8D18B2207600E3CA52 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		9D837B8E18B2207600E3CA52 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		9DC909F518B0D0800012C645 /* libUrQA.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libUrQA.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		9DC909F818B0D0800012C645 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		9DC909FC18B0D0800012C645 /* UrQA-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UrQA-Prefix.pch"; sourceTree = "<group>"; };
@@ -93,6 +98,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D837B8B18B2203F00E3CA52 /* CoreTelephony.framework in Frameworks */,
 				9DC909F918B0D0800012C645 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -111,6 +117,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9D837B8C18B2207600E3CA52 /* Reachability */ = {
+			isa = PBXGroup;
+			children = (
+				9D837B8D18B2207600E3CA52 /* Reachability.h */,
+				9D837B8E18B2207600E3CA52 /* Reachability.m */,
+			);
+			name = Reachability;
+			path = Library/Reachability;
+			sourceTree = "<group>";
+		};
 		9DC909EC18B0D0800012C645 = {
 			isa = PBXGroup;
 			children = (
@@ -132,6 +148,7 @@
 		9DC909F718B0D0800012C645 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9D837B8A18B2203F00E3CA52 /* CoreTelephony.framework */,
 				9DC909F818B0D0800012C645 /* Foundation.framework */,
 				9DC90A0618B0D0800012C645 /* XCTest.framework */,
 				9DC90A0918B0D0800012C645 /* UIKit.framework */,
@@ -176,6 +193,7 @@
 		9DC90A1F18B0D1980012C645 /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				9D837B8C18B2207600E3CA52 /* Reachability */,
 			);
 			name = Library;
 			sourceTree = "<group>";
@@ -339,6 +357,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D837B8F18B2207600E3CA52 /* Reachability.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -385,7 +404,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
@@ -417,7 +436,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -426,7 +445,7 @@
 		9DC90A1918B0D0800012C645 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD)";
 				DSTROOT = /tmp/UrQA.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "UrQA/UrQA-Prefix.pch";
@@ -439,7 +458,7 @@
 		9DC90A1A18B0D0800012C645 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD)";
 				DSTROOT = /tmp/UrQA.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "UrQA/UrQA-Prefix.pch";
@@ -506,6 +525,7 @@
 				9DC90A1A18B0D0800012C645 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		9DC90A1B18B0D0800012C645 /* Build configuration list for PBXNativeTarget "UrQATests" */ = {
 			isa = XCConfigurationList;
@@ -514,6 +534,7 @@
 				9DC90A1D18B0D0800012C645 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
