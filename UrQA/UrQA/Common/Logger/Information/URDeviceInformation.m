@@ -36,21 +36,6 @@
 
 @implementation URDeviceInformation
 
-/*
-+ (URDeviceInformation *)sharedController
-{
-    // It makes singleton object thread-safe
-    static URDeviceInformation *deviceInfo;
-    
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        deviceInfo = [[URDeviceInformation alloc] initWithBundle:[NSBundle mainBundle]];
-    });
-    
-    return deviceInfo;
-}
-*/
-
 - (id)init
 {
     self = [super init];
@@ -124,7 +109,7 @@
     _memoryTotal = (vm_stat.active_count + vm_stat.inactive_count + vm_stat.wire_count) * pagesize / 1048576.0f + _memoryFree;
     
     // is Emulator
-#if !TARGET_IPHONE_SIMULATOR
+    _isEmulator = YES;
     if([self getSystemNumber:@"sysctl.proc_native" result:&retval])
     {
         if(retval == 0)
@@ -134,9 +119,6 @@
     }
     else
         _isEmulator = NO;
-#else
-    _isEmulator = YES;
-#endif
     
     // Screen Size
     _screenSize = [UIScreen mainScreen].bounds.size;
@@ -204,7 +186,7 @@
             locationManager = [[NSClassFromString(@"CLLocationManager") alloc] init];
         
         CLANG_IGNORE(-Wundeclared-selector)
-        _isUseGPS = [locationManager performSelector:@selector(locationServicesEnabled)];
+        _isUseGPS = (BOOL)[locationManager performSelector:@selector(locationServicesEnabled)];
         CLANG_POP
     }
     else
@@ -398,7 +380,7 @@
 {
     size_t len = sizeof(*result);
     
-    if(sysctlbyname([name UTF8String], result, &len, NULL, 0) != 0)
+    if(!sysctlbyname([name UTF8String], result, &len, NULL, 0))
         return false;
     
     return YES;
@@ -406,21 +388,13 @@
 
 - (NSString *)getSystemString:(NSString *)name
 {
-    /* Attempt to fetch the data, looping until our buffer is sufficiently sized. */
     char result[1024];
-    size_t result_len = 0;
-    int ret;
-    NSString *resultString;
+    size_t result_len = 1024;
     
-    /* Fetch the value */
-    if ((ret = sysctlbyname([name UTF8String], &result, &result_len, NULL, 0)) != -1)
-        resultString = [NSString stringWithUTF8String:result];
-    
-    /* Handle failure */
-    if(ret == -1)
+    if(sysctlbyname([name UTF8String], &result, &result_len, NULL, 0) < 0)
         return nil;
     
-    return resultString;
+    return [NSString stringWithUTF8String:result];
 }
 
 @end

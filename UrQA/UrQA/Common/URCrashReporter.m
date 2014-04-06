@@ -18,6 +18,8 @@
 #import <mach/mach.h>
 #import <mach/exc.h>
 
+static URCrashReporter      *_crashReporter;
+
 void exceptionCallback(void *context, int tag);
 void signalExceptionCallback(siginfo_t *info, ucontext_t *uap);
 void machSignalExceptionCallback(siginfo_t *info, exception_type_t exception_type, mach_exception_data_t codes, mach_msg_type_number_t code_count);
@@ -49,7 +51,7 @@ void uncaughtExceptionCallback(NSException *exception);
 #endif
     }
     
-    return self;
+    return _crashReporter = self;
 }
 
 - (BOOL)start
@@ -107,19 +109,69 @@ void exceptionCallback(void *context, int tag)
     }
 }
 
-void signalExceptionCallback(siginfo_t *info, ucontext_t *uap)
+void signalExceptionCallback(siginfo_t *info, ucontext_t *ucontext)
 {
+    URCrashInfo *crashInfo = malloc(sizeof(URCrashInfo));
     
+    crashInfo->isMachSignal = NO;
+    crashInfo->bsdSignal.signo = info->si_signo;
+    crashInfo->bsdSignal.code = info->si_code;
+    crashInfo->bsdSignal.address = info->si_addr;
+    
+    [_crashReporter.crashLogger logCrashError:crashInfo contextInfo:ucontext];
+    
+    free(crashInfo);
 }
 
-void machSignalExceptionCallback(siginfo_t *info, exception_type_t exception_type, mach_exception_data_t codes, mach_msg_type_number_t code_count)
+void machSignalExceptionCallback(siginfo_t *info, exception_type_t exceptionType, mach_exception_data_t codes, mach_msg_type_number_t codeCount)
 {
+    URCrashInfo *crashInfo = malloc(sizeof(URCrashInfo));
     
+    crashInfo->isMachSignal = YES;
+    crashInfo->bsdSignal.signo = info->si_signo;
+    crashInfo->bsdSignal.code = info->si_code;
+    crashInfo->bsdSignal.address = info->si_addr;
+    
+    crashInfo->machSignal.code = codes;
+    crashInfo->machSignal.codeCount = codeCount;
+    crashInfo->machSignal.type = exceptionType;
+    
+    ucontext_t ucontext;
+    _STRUCT_MCONTEXT mcontext;
+    memset(&ucontext, 0, sizeof(ucontext));
+    memset(&mcontext, 0, sizeof(mcontext));
+    ucontext.uc_mcsize = sizeof(mcontext);
+    ucontext.uc_mcontext = &mcontext;
+    [_crashReporter.crashLogger logCrashError:crashInfo contextInfo:&ucontext];
+    
+    free(crashInfo);
 }
 
 void uncaughtExceptionCallback(NSException *exception)
 {
+    URUncaughtException *uncaughtException = malloc(sizeof(URUncaughtException));
     
+    uncaughtException->hasException = true;
+    uncaughtException->name = strdup([[exception name] UTF8String]);
+    uncaughtException->reason = strdup([[exception reason] UTF8String]);
+    
+    NSArray *callStackArray = [exception callStackReturnAddresses];
+    if(callStackArray && [callStackArray count] > 0)
+    {
+        size_t count = [callStackArray count];
+        uncaughtException->callstackCount = count;
+        uncaughtException->callstack = malloc(sizeof(void *) * count);
+        
+        size_t i = 0;
+        for(NSNumber *num in callStackArray)
+        {
+            if(i >= count) break;
+            uncaughtException->callstack[i ++] = (void *)(uintptr_t)[num unsignedLongLongValue];
+        }
+    }
+    
+    [_crashReporter.crashLogger setUncaughtException:uncaughtException];
+    abort();
 }
 
 @end

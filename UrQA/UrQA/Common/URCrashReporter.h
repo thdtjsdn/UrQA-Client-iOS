@@ -20,6 +20,10 @@
     NSMutableArray          *_crashHandler;
 }
 
+@property (getter = _crashLogger) URCrashLogger     *crashLogger;
+@property (getter = _eventPath) UREventPath         *eventPath;
+
+
 - (BOOL)start;
 - (void)stop;
 

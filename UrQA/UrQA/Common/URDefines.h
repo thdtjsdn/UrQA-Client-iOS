@@ -37,6 +37,41 @@ typedef struct
     arm_unified_thread_state_t      status;
 } URThreadInfo;
 
+typedef struct
+{
+    task_t task;
+    uint32_t depth;
+    URThreadInfo prev_frame;
+    URThreadInfo frame;
+} URCursorInfo;
+
+typedef struct
+{
+    BOOL isMachSignal;
+    struct
+    {
+        int signo;
+        int code;
+        void *address;
+    } bsdSignal;
+    
+    struct
+    {
+        exception_type_t type;
+        mach_exception_data_t code;
+        mach_msg_type_number_t codeCount;
+    } machSignal;
+} URCrashInfo;
+
+typedef struct
+{
+    bool                            hasException;
+    char                            *name;
+    char                            *reason;
+    void                            **callstack;
+    size_t                          callstackCount;
+} URUncaughtException;
+
 typedef NS_ENUM(NSInteger, URErrorRank)
 {
     URErrorRankNothing      = -1,
